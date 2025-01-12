@@ -10,22 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Set up Java
+      # Step 2: Set up Java
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # Build the project using Gradle
-      - name: Build project
+      # Step 3: Make Gradle wrapper executable
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      # Step 4: Build the project
+      - name: Build the project
         run: ./gradlew assembleRelease
 
-      # Upload the generated APK
+      # Step 5: Upload APK as artifact
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
