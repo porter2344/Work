@@ -1,5 +1,28 @@
-- name: Upload artifact
-  uses: actions/upload-artifact@v3
-  with:
-    name: my-artifact
-    path: ./build
+name: Build and Upload
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+
+      - name: Build project
+        run: ./gradlew assembleRelease
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-build
+          path: app/build/outputs/apk/release/*.apk
